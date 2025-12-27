@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import "./terminal.css";
 import WidgetMenu from "../widgets/WidgetMenu";
 import Skills from "../widgets/Skills";
@@ -27,6 +27,7 @@ const Terminal = () => {
   const [showNeofetchInHistory, setShowNeofetchInHistory] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const measureRef = useRef<HTMLSpanElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
   const terminalContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,37 +73,45 @@ const Terminal = () => {
     }
   }, []);
 
-  // Actualizar posición del cursor cuando cambia el input
-  useEffect(() => {
-    if (inputRef.current) {
-      setCursorPosition(inputRef.current.selectionStart || 0);
-    }
+  // Reposicionar cursor directamente usando refs (evita desfases de estado)
+  const repositionCursor = (value?: string, sel?: number) => {
+    const input = inputRef.current;
+    const measure = measureRef.current;
+    const cursor = cursorRef.current;
+    if (!input || !measure || !cursor) return;
+    const val = value !== undefined ? value : input.value;
+    const selection =
+      sel !== undefined ? sel : input.selectionStart ?? val.length;
+    // actualizar contenido de medida (hidden span)
+    measure.textContent = val.substring(0, selection);
+    const measureWidth = measure.offsetWidth;
+    const scrollLeft = input.scrollLeft || 0;
+    const left = Math.max(0, measureWidth - scrollLeft);
+    cursor.style.left = `${left}px`;
+    // mantener sincronizado el estado para que el JSX no sobrescriba el span oculto
+    setCursorPosition(selection);
+  };
+
+  useLayoutEffect(() => {
+    repositionCursor();
   }, [inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     // reset history navigation when user types
     if (historyIndex !== null) setHistoryIndex(null);
-    // Actualizar posición del cursor después del cambio
-    setTimeout(() => {
-      if (inputRef.current) {
-        setCursorPosition(inputRef.current.selectionStart || 0);
-      }
-    }, 0);
+    // actualizar y reposicionar inmediatamente usando el valor nuevo
+    repositionCursor(e.target.value, e.target.selectionStart || 0);
   };
 
   const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
-    setTimeout(() => {
-      setCursorPosition(input.selectionStart || 0);
-    }, 0);
+    repositionCursor(undefined, input.selectionStart || 0);
   };
 
   const handleInputKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
-    setTimeout(() => {
-      setCursorPosition(input.selectionStart || 0);
-    }, 0);
+    repositionCursor(undefined, input.selectionStart || 0);
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -152,10 +161,21 @@ const Terminal = () => {
     }
 
     // Usar setTimeout para que el cursor se actualice después de que el navegador procese la tecla
-    setTimeout(() => {
-      setCursorPosition(input.selectionStart || 0);
-    }, 0);
+    repositionCursor(undefined, input.selectionStart || 0);
   };
+
+  // Ajustar posición cuando el input hace scroll horizontal
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) return;
+    const onScroll = () => repositionCursor();
+    input.addEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      input.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   const executeCommand = (command: string) => {
     const lowerCommand = command.toLowerCase().trim();
@@ -566,14 +586,7 @@ const Terminal = () => {
             onKeyDown={handleInputKeyDown}
             autoFocus
           />
-          <span
-            className="cursor-blink"
-            style={{
-              left: measureRef.current
-                ? `${measureRef.current.offsetWidth}px`
-                : "0px",
-            }}
-          ></span>
+          <span className="cursor-blink" ref={cursorRef}></span>
         </div>
       </div>
     </div>
