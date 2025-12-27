@@ -42,11 +42,11 @@ const WidgetMenu = ({ onClose }: WidgetMenuProps) => {
       name: "📈 Dashboard Empresarial",
       component: BusinessDashboard,
     },
-    {
-      id: "fishing",
-      name: "🎣 ¿Quieres relajarte un rato?",
-      component: FishingGame,
-    },
+    // {
+    //   id: "fishing",
+    //   name: "🎣 ¿Quieres relajarte un rato?",
+    //   component: FishingGame,
+    // },
   ];
 
   const WidgetComponent = selectedWidget
