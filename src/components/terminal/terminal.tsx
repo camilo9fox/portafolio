@@ -547,10 +547,15 @@ const Terminal = () => {
                   <strong>Comandos disponibles:</strong>
                 </p>
                 <ul className="commands-list">
+                  <li>`experiencia` / `exp`</li>
                   <li>`proyectos`</li>
-                  <li>`habilidades`</li>
-                  <li>`contacto`</li>
+                  <li>`habilidades` / `skills`</li>
+                  <li>`certificaciones` / `certs`</li>
+                  <li>`stack`</li>
+                  <li>`demo` / `showcase` / `widgets`</li>
+                  <li>`contacto` / `contact`</li>
                   <li>`clear`</li>
+                  <li>`help`</li>
                 </ul>
               </div>
             </div>
