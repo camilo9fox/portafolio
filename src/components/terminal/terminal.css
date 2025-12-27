@@ -544,12 +544,12 @@
 
 .neofetch-info .info-block p strong {
   color: var(--text-gold);
-  text-shadow: 0 0 5px var(--text-gold);
+  text-shadow: 0 0 15px var(--text-gold);
   transition: text-shadow 0.3s ease;
 }
 
 .neofetch-info .info-block p:hover strong {
-  text-shadow: 0 0 10px var(--text-gold);
+  text-shadow: 0 0 30px var(--text-gold);
 }
 
 .neofetch-info .info-block li {
