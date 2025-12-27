@@ -1,0 +1,103 @@
+.widget-menu {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.widget-menu-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.widget-menu-header h2 {
+  color: var(--text-accent);
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+
+.widget-menu-header p {
+  color: var(--text-secondary);
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .widget-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+.widget-card {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 120px;
+  justify-content: center;
+}
+
+.widget-card:hover {
+  border-color: var(--text-accent);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px var(--shadow-color);
+}
+
+.widget-icon {
+  font-size: 2.5em;
+  margin-bottom: 5px;
+}
+
+.widget-name {
+  color: var(--text-primary);
+  font-weight: bold;
+  text-align: center;
+}
+
+.widget-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.widget-back-btn {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+}
+
+.widget-back-btn:hover {
+  border-color: var(--text-accent);
+  color: var(--text-accent);
+}
+
+.widget-info {
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(82, 141, 255, 0.1);
+  border-radius: 5px;
+  border-left: 3px solid var(--text-accent);
+}
+
+.widget-info p {
+  color: var(--text-secondary);
+  margin: 0;
+}

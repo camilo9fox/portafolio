@@ -1,0 +1,56 @@
+.skills-response {
+  /* add left padding so the skills content aligns with other command responses */
+  padding: 8px 6px 4px 14px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.skills-section {
+  /* make sections consistent with experience sections */
+  margin-bottom: 10px;
+}
+
+.skills-section p {
+  margin: 0 0 8px 0;
+  color: var(--text-accent);
+  font-weight: bold;
+}
+
+.skills-list {
+  list-style: none;
+  margin: 0;
+  padding-left: 20px; /* align with other lists in terminal */
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.12s ease;
+  color: var(--text-secondary);
+}
+
+.skill-item:hover {
+  background: rgba(82, 141, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.skill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+
+.skill-name {
+  font-weight: bold;
+  color: var(--text-primary);
+}
